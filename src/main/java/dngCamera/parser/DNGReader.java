@@ -29,18 +29,9 @@ public class DNGReader {
         }
         return output;
     }
-    public DNGReader(File dngFile) {
-        try {
-            FileInputStream fs = new FileInputStream(dngFile);
-            byte[] fsBytes = fs.readAllBytes();
-            dngBuffer = ByteBuffer.wrap(fsBytes);
-            dngBuffer.order(ByteOrder.LITTLE_ENDIAN);
-        } catch (IOException e) {
-            e.printStackTrace();
-            Log.e("FillParametersByDNG","Error IOException");
-            return;
-        }
-
+    public DNGReader(ByteBuffer dngBuffer) {
+        this.dngBuffer = dngBuffer;
+        dngBuffer.order(ByteOrder.LITTLE_ENDIAN);
         byte[] format = { dngBuffer.get(), dngBuffer.get() };
         if (!new String(format).equals("II")) {
             Log.e(TAG, "Can only parse LITTLE_ENDIAN");
@@ -119,11 +110,14 @@ public class DNGReader {
         int rawSizeB = imageSize.x * imageSize.y * 2;
         Log.v("FillParametersByDNG","strip:"+stripOffsets[0]+" stripCounts:"+stripByteCounts[0]+" sizeB:"+rawSizeB);
         ByteBuffer rawBuffer = ByteBuffer.allocateDirect(rawSizeB);
+        byte[] rawArr = new byte[rawSizeB];
         int rawImageOffset = 0;
         for (int i = 0; i < stripOffsets.length; i++) {
-            rawBuffer.put(rawImageOffset,dngBuffer, stripOffsets[i], stripByteCounts[i]);
+            //rawBuffer.put(rawImageOffset,dngBuffer, stripOffsets[i], stripByteCounts[i]);
+            dngBuffer.position(stripOffsets[i]).get(rawArr,rawImageOffset,stripByteCounts[i]);
             rawImageOffset += stripByteCounts[i];
         }
+        rawBuffer.put(rawArr);
         rawBuffer.position(0);
         return rawBuffer;
     }

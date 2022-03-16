@@ -3,6 +3,7 @@ import com.particlesdevs.photoncamera.processing.opengl.postpipeline.PostPipelin
 import com.particlesdevs.photoncamera.processing.render.Parameters;
 import dngCamera.PhotonCamera;
 import dngCamera.parser.DNGReader;
+import com.particlesdevs.photoncamera.processing.processor.ByteBufferReader;
 import ui.forms.MainUI;
 import util.FileManager;
 import javax.swing.*;
@@ -18,26 +19,21 @@ public class Main {
         } catch (UnsupportedLookAndFeelException | ClassNotFoundException | InstantiationException | IllegalAccessException e) {
             e.printStackTrace();
         }
-        new PhotonCamera();
         FileManager.CreateFolders();
-        width=300; height=300;
-        JFrame frame = new JFrame("PhotonCameraDNG");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(600, 300);
-        MainUI mainUI = new MainUI(frame);
-
-        Parameters parameters = new Parameters();
-
-        File dng = new File("./IMG_20220316_175154.dng");
-        DNGReader dngReader = new DNGReader(dng);
-        dngReader.FillParameters(parameters);
-        ByteBuffer rawBuffer =dngReader.ReadRawBuffer();
-
-        PostPipeline pipeline = new PostPipeline();
-
-        GLImage out = pipeline.Run(rawBuffer,parameters);
-
-        out.save(new File("processed.png"));
+        new PhotonCamera();
+//        Parameters parameters = new Parameters();
+//
+//        File dng = new File("./IMG_20220316_175154.dng");
+//
+//        DNGReader dngReader = new DNGReader(ByteBufferReader.read(dng));
+//        dngReader.FillParameters(parameters);
+//        ByteBuffer rawBuffer =dngReader.ReadRawBuffer();
+//
+//        PostPipeline pipeline = new PostPipeline();
+//
+//        GLImage out = pipeline.Run(rawBuffer,parameters);
+//
+//        out.save(new File("processed.png"));
 
     }
 }

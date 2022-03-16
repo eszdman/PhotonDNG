@@ -58,6 +58,7 @@ out vec3 Output;
 #define luminocity(x) dot(x.rgb, vec3(0.299, 0.587, 0.114))
 #define MINP 1.0
 #define NOISEO 0.0
+#define LUT 0
 #import coords
 #import interpolation
 #import gaussian

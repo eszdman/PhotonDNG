@@ -89,13 +89,15 @@ public class PostPipeline extends GLBasePipeline {
         add(new Bayer2Float());
         //add(new ExposureFusionBayer2());
         switch (PhotonCamera.getSettings().cfaPattern) {
-            case -2 -> {
+            case -2: {
                 add(new DemosaicQUAD());
+                break;
             }
-            case 4 -> {
+            case 4: {
                 add(new MonoDemosaic());
+                break;
             }
-            default -> {
+            default: {
                 //if(nightMode)
                 //    add(new HotPixelFilter());
                 //if(PhotonCamera.getSettings().hdrxNR) {
@@ -104,6 +106,7 @@ public class PostPipeline extends GLBasePipeline {
                 add(new Demosaic2());
 
                 //add(new ImpulsePixelFilter());
+                break;
             }
         }
         /*
