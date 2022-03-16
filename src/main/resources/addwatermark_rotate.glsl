@@ -48,6 +48,5 @@ void main() {
     Output*=1.005;
     Output.a = 1.0;
 
-    Output.rgb = vec3(fract(float(xy.x)/256.0)+fract(float(xy.y)/256.0))/2.0;
     Output.rgba = Output.bgra;
 }

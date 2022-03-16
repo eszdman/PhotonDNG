@@ -16,6 +16,7 @@ public class Node {
     public String Name = "Node";
     public Node previousNode;
     public int Rid;
+    public String ShaderName;
     private long timeStart;
     public GLBasePipeline basePipeline;
     public GLInterface glInt;
@@ -30,6 +31,10 @@ public class Node {
 
     public Node(int rid, String name) {
         Rid = rid;
+        Name = name;
+    }
+    public Node(String shaderName, String name) {
+        ShaderName = shaderName;
         Name = name;
     }
 
@@ -80,7 +85,7 @@ public class Node {
     public void AfterRun(){}
     public void BeforeCompile(){}
     public void Compile() {
-        basePipeline.glint.glProgram.useProgram(Rid);
+        basePipeline.glint.glProgram.useAssetProgram(ShaderName,false);
     }
 
     public GLTexture GetProgTex() {

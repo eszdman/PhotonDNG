@@ -111,6 +111,7 @@ public class DNGReader {
         parameters.FillConstParameters(imageSize);
         parameters.FillDynamicParameters();
     }
+
     public ByteBuffer ReadRawBuffer(){
         Point imageSize = new Point(getTag(tags,TIFF.TAG_ImageWidth).getInt(),getTag(tags,TIFF.TAG_ImageHeight).getInt());
         int[] stripOffsets = getTag(tags, TIFF.TAG_StripOffsets).getIntArray();
@@ -118,14 +119,12 @@ public class DNGReader {
         int rawSizeB = imageSize.x * imageSize.y * 2;
         Log.v("FillParametersByDNG","strip:"+stripOffsets[0]+" stripCounts:"+stripByteCounts[0]+" sizeB:"+rawSizeB);
         ByteBuffer rawBuffer = ByteBuffer.allocateDirect(rawSizeB);
-        //byte[] rawImageInput = new byte[rawSizeB];
         int rawImageOffset = 0;
         for (int i = 0; i < stripOffsets.length; i++) {
-            //buffer.position(stripOffsets[i]).get(rawImageInput, rawImageOffset, stripByteCounts[i]);
-            //buffer.get(stripOffsets[i],rawBuffer, rawImageOffset, stripByteCounts[i]);
-            rawBuffer.put(rawImageOffset,dngBuffer, rawImageOffset, stripByteCounts[i]);
+            rawBuffer.put(rawImageOffset,dngBuffer, stripOffsets[i], stripByteCounts[i]);
             rawImageOffset += stripByteCounts[i];
         }
+        rawBuffer.position(0);
         return rawBuffer;
     }
 }

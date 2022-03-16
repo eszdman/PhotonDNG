@@ -10,6 +10,7 @@ import java.awt.image.*;
 import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.IntBuffer;
@@ -27,6 +28,16 @@ public class GLImage implements AutoCloseable {
         byteBuffer = getByteBuffer(image);
     }
     public GLImage(File inputFile) {
+        try {
+            BufferedImage image = ImageIO.read(inputFile);
+            this.size = new Point(image.getWidth(),image.getHeight());
+            glFormat = new GLFormat(GLFormat.DataType.SIMPLE_8,image.getColorModel().getPixelSize()/8);
+            byteBuffer = getByteBuffer(image);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public GLImage(InputStream inputFile) {
         try {
             BufferedImage image = ImageIO.read(inputFile);
             this.size = new Point(image.getWidth(),image.getHeight());

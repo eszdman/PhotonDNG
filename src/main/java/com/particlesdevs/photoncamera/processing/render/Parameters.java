@@ -71,7 +71,7 @@ public class Parameters {
         gainMap[1] = 1.f;
         gainMap[2] = 1.f;
         gainMap[3] = 1.f;
-        //sensorPix = characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
+        //`sensorPix` = characteristics.get(CameraCharacteristics.SENSOR_INFO_ACTIVE_ARRAY_SIZE);
         if (sensorPix == null) {
             sensorPix = new Rect(0, 0, rawSize.x, rawSize.y);
         }

@@ -434,9 +434,9 @@ void main() {
     float br = (sRGB.r+sRGB.g+sRGB.b)/3.0;
     sRGB = applyColorSpace(sRGB,tonemapGain);
     //sRGB = clamp(sRGB,0.0,1.0);
-
+    #if LUT == 1
     sRGB = lookup(sRGB);
-
+    #endif
     //Rip Shadowing applied
     br = (clamp(br-0.0008,0.0,0.007)*(1.0/0.007));
     //br*= (clamp(3.0-sRGB.r+sRGB.g+sRGB.b,0.0,0.006)*(1.0/0.006));
