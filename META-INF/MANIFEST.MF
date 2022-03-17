@@ -1,3 +1,4 @@
 Manifest-Version: 1.0
-Main-Class: Main
+Main-Class: dngCamera.Main
+Class-Path: resources
 

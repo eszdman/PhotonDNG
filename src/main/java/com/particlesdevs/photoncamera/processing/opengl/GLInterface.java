@@ -104,7 +104,7 @@ public class GLInterface {
                 String imported = "";
                 if(!val.contains("//")) {
                     imported = PhotonCamera.getAssetLoader().getString(
-                                    "utils\\" +
+                                    "shaders\\utils\\" +
                                     val
                                     .replace("#", "")
                                     .replace(" ", "_")

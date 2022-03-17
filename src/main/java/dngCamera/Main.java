@@ -1,3 +1,5 @@
+package dngCamera;
+
 import com.particlesdevs.photoncamera.processing.opengl.*;
 import com.particlesdevs.photoncamera.processing.opengl.postpipeline.PostPipeline;
 import com.particlesdevs.photoncamera.processing.render.Parameters;

@@ -226,8 +226,9 @@ public class GLFormat {
             case UNSIGNED_32:
                 return GL_UNSIGNED_INT;
             case SIGNED_8:
-            case SIMPLE_8:
                 return GL_BYTE;
+            case SIMPLE_8:
+                return GL_UNSIGNED_INT_8_8_8_8;
             case SIGNED_16:
                 return GL_SHORT;
             case SIGNED_32:

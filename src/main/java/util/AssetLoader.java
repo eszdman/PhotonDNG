@@ -1,37 +1,52 @@
 package util;
 
-import util.os.Environment;
+import com.sun.tools.javac.Main;
+import dngCamera.PhotonCamera;
+import util.Log.Log;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class AssetLoader {
-
+    private static String TAG = "AssetLoader";
     public AssetLoader() {}
 
-    public File getFile(String name) throws IOException {
-        InputStream initialStream = getInputStream(name);
-        byte[] buffer = new byte[initialStream.available()];
-        initialStream.read(buffer);
-        File targetFile = new File(name);
-        OutputStream outStream = new FileOutputStream(targetFile);
-        outStream.write(buffer);
-        outStream.close();
-        return targetFile;
+    public InputStream getInputStream(String name) {
+        InputStream in
+                = getClass().getResourceAsStream(name);
+        if(in == null) in = ClassLoader.getSystemClassLoader().getResourceAsStream(name);
+        if(in == null){
+            try {
+                in = new FileInputStream("resources\\"+name);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        return in;
     }
-
-    public InputStream getInputStream(String name) throws IOException {
-        return getClass().getClassLoader().getResourceAsStream(name);
-    }
-    public String getString(String name) {
-        InputStream initialStream = null;
-        try {
-            initialStream = getInputStream(name);
+    public void Test(){
+        List<String> filenames = new ArrayList<>();
+        try (
+                InputStream in = getInputStream("");
+                BufferedReader br = new BufferedReader(new InputStreamReader(in))) {
+            String resource;
+            while ((resource = br.readLine()) != null) {
+                filenames.add(resource);
+            }
         } catch (IOException e) {
             e.printStackTrace();
-            return "";
         }
-        BufferedReader br = new BufferedReader(new InputStreamReader(initialStream, StandardCharsets.UTF_8 ));
+        for(String s : filenames){
+            Log.d(TAG, "s:"+s);
+        }
+    }
+    public String getString(String name) {
+        //Test();
+        InputStream initialStream = getInputStream(name);
+        BufferedReader br = new BufferedReader(new InputStreamReader(initialStream, StandardCharsets.UTF_8));
         String str = null;
         StringBuilder sb = new StringBuilder();
         while (true) {

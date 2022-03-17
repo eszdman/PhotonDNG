@@ -38,7 +38,6 @@ dependencies {
     runtimeOnly group: 'org.lwjgl', name: 'lwjgl-openal', version: '3.2.3'
     //https://search.maven.org/artifact/com.pngencoder/pngencoder/0.12.0/jar
     implementation 'com.pngencoder:pngencoder:0.12.0'
-
     runtimeOnly "org.lwjgl:lwjgl::$lwjglNatives"
     //runtimeOnly "org.lwjgl:lwjgl-assimp::$lwjglNatives"
     runtimeOnly "org.lwjgl:lwjgl-openal::$lwjglNatives"

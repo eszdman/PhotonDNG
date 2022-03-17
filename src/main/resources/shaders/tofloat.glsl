@@ -43,7 +43,6 @@ void main() {
         if(g[0] > sum*1.9) g[0] = median5(g);
         Output = float(g[0])/float(whitelevel);*/
         Output = float(texelFetch(InputBuffer, (xy+ivec2(0,0)), 0).x)/float(whitelevel);
-        //Output = 0.5;
         Output = gains.g*(Output-level.g-BLG)/(1.0-level.g);
     } else {
         if(fact.x == 0){

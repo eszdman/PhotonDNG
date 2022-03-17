@@ -72,10 +72,10 @@ public class GLProg implements AutoCloseable {
         changedDef = true;
     }
     public void useAssetProgram(String name,boolean compute){
-        useProgram(PhotonCamera.getAssetLoader().getString(name+".glsl"),compute);
+        useProgram(PhotonCamera.getAssetLoader().getString("shaders\\"+name+".glsl"),compute);
     }
     public void useUtilProgram(String name,boolean compute){
-        useProgram(PhotonCamera.getAssetLoader().getString("utils\\"+name+".glsl"),compute);
+        useProgram(PhotonCamera.getAssetLoader().getString("shaders\\utils\\"+name+".glsl"),compute);
     }
     public void useProgram(int fragmentRes){
         useProgram(fragmentRes,false);

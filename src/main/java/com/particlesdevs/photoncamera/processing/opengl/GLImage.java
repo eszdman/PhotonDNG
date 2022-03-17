@@ -19,7 +19,7 @@ import java.nio.ShortBuffer;
 public class GLImage implements AutoCloseable {
     private static String TAG = "GLImage";
     Point size;
-    ByteBuffer byteBuffer;
+    public ByteBuffer byteBuffer;
     GLFormat glFormat;
 
     public GLImage(BufferedImage image){
@@ -65,26 +65,32 @@ public class GLImage implements AutoCloseable {
         ByteBuffer byteBuffer = null;
         if (dataBuffer instanceof DataBufferByte) {
             byte[] pixelData = ((DataBufferByte) dataBuffer).getData();
-            byteBuffer = ByteBuffer.wrap(pixelData);
+            byteBuffer = ByteBuffer.allocateDirect(pixelData.length);
+            byteBuffer.put(pixelData);
+            byteBuffer.position(0);
         }
         else if (dataBuffer instanceof DataBufferUShort) {
             short[] pixelData = ((DataBufferUShort) dataBuffer).getData();
-            byteBuffer = ByteBuffer.allocate(pixelData.length * 2);
-            byteBuffer.asShortBuffer().put(ShortBuffer.wrap(pixelData));
+            byteBuffer = ByteBuffer.allocateDirect(pixelData.length * 2).order(ByteOrder.LITTLE_ENDIAN);
+            byteBuffer.asShortBuffer().put(pixelData);
+            byteBuffer.position(0);
         }
         else if (dataBuffer instanceof DataBufferShort) {
             short[] pixelData = ((DataBufferShort) dataBuffer).getData();
-            byteBuffer = ByteBuffer.allocate(pixelData.length * 2);
-            byteBuffer.asShortBuffer().put(ShortBuffer.wrap(pixelData));
+            byteBuffer = ByteBuffer.allocateDirect(pixelData.length * 2).order(ByteOrder.LITTLE_ENDIAN);
+            byteBuffer.asShortBuffer().put(pixelData);
+            byteBuffer.position(0);
         }
         else if (dataBuffer instanceof DataBufferInt) {
             int[] pixelData = ((DataBufferInt) dataBuffer).getData();
-            byteBuffer = ByteBuffer.allocate(pixelData.length * 4);
-            byteBuffer.asIntBuffer().put(IntBuffer.wrap(pixelData));
+            byteBuffer = ByteBuffer.allocateDirect(pixelData.length * 4).order(ByteOrder.LITTLE_ENDIAN);
+            byteBuffer.asIntBuffer().put(pixelData);
+            byteBuffer.position(0);
         }
         else {
             Log.e("GlImage", "Not implemented for data buffer type: " + dataBuffer.getClass());
         }
+
         return byteBuffer;
     }
 

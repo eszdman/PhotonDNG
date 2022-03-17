@@ -88,7 +88,10 @@ public class GLTexture implements AutoCloseable {
         glBindTexture(GL_TEXTURE_2D, mTextureID);
         glTexStorage2D(GL_TEXTURE_2D, 1, mFormat.getGLFormatInternal(),  mSize.x, mSize.y);
         checkEglError("glTexStorage2D");
-        glTexSubImage2D(GL_TEXTURE_2D, level,0,0,mSize.x,mSize.y,mFormat.getGLFormatExternal(),mFormat.getGLType(), bmp.byteBuffer);
+        if(bmp.byteBuffer != null)
+            glTexSubImage2D(GL_TEXTURE_2D, level, 0, 0, mSize.x, mSize.y, mFormat.getGLFormatExternal(), mFormat.getGLType(),bmp.byteBuffer);
+        else
+            glTexSubImage2D(GL_TEXTURE_2D, level, 0, 0, mSize.x, mSize.y, mFormat.getGLFormatExternal(), mFormat.getGLType(), 0);
         checkEglError("glTexSubImage2D");
         reSetParameters();
         checkEglError("Tex glTexParameter");
