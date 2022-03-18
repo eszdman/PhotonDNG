@@ -47,19 +47,15 @@ public class RotateWatermark extends Node {
         Log.d(Name,"Rotation:"+rotate);
         switch (rotate){
             case 0:
-                //WorkingTexture = new GLTexture(size.x,size.y, previousNode.WorkingTexture.mFormat, null);
                 rot = 0;
                 break;
             case 90:
-                //WorkingTexture = new GLTexture(size.y,size.x, previousNode.WorkingTexture.mFormat, null);
                 rot = 3;
                 break;
             case 180:
-                //WorkingTexture = new GLTexture(size, previousNode.WorkingTexture.mFormat, null);
                 rot = 2;
                 break;
             case 270:
-                //WorkingTexture = new GLTexture(size.y,size.x, previousNode.WorkingTexture.mFormat, null);
                 rot = 1;
                 break;
         }

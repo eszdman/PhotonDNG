@@ -59,7 +59,7 @@ public class GLBuffer implements AutoCloseable {
         int[] value = null;
         Bind();
         checkEglError("bind SSBO");
-        ByteBuffer buffer = (ByteBuffer)glMapBufferRange(GL_SHADER_STORAGE_BUFFER,0,byteSize,GL_MAP_READ_BIT);
+        ByteBuffer buffer = glMapBufferRange(GL_SHADER_STORAGE_BUFFER,0,byteSize,GL_MAP_READ_BIT);
         checkEglError("getByteBuffer");
         if (buffer != null)
         {

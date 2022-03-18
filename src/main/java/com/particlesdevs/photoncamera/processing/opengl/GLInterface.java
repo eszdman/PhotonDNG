@@ -95,11 +95,13 @@ public class GLInterface {
     }
     public static String readProgram(BufferedReader reader, ArrayList<String[]> defines) {
         StringBuilder source = new StringBuilder();
-        source.append(glVersion);
         int linecnt = 0;
+        boolean versioned = false;
         for (Object line : reader.lines().toArray()) {
             linecnt++;
             String val = String.valueOf(line);
+            if(val.contains("#version"))
+                versioned = true;
             if(val.contains("#import")){
                 String imported = "";
                 if(!val.contains("//")) {
@@ -123,7 +125,7 @@ public class GLInterface {
             if(val.contains("#define") && defines != null){
                 for(String[] define : defines){
                     if(val.contains(" "+define[0]+" ")){
-                        line = (String)("#define "+define[0]+" "+define[1]);
+                        line = "#define "+define[0]+" "+define[1];
                         //Log.d("GLInterface","Overwrite:"+line);
                         break;
                     }
@@ -131,6 +133,8 @@ public class GLInterface {
             }
             source.append(line).append("\n");
         }
-        return source.toString();
+        String addVersion = glVersion+"\n"+"#line 1\n";
+        if(versioned) addVersion = "";
+        return addVersion + source;
     }
 }

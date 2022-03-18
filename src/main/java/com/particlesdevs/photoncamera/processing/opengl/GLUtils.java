@@ -106,7 +106,7 @@ public class GLUtils {
         glProg.setDefine("KSIZE",((int)size - 1)/2);
         if(horizontal) glProg.setDefine("INP","tvar inp = tvar(texelFetch(InputBuffer, (xy+ivec2(i,0)), 0)"+out.mFormat.getTemExt()+");");
         else glProg.setDefine("INP","tvar inp = tvar(texelFetch(InputBuffer, (xy+ivec2(0,i)), 0)"+out.mFormat.getTemExt()+");");
-        glProg.useProgram(PhotonCamera.getAssetLoader().getString("blurvh.glsl"));
+        glProg.useAssetProgram("blurvh",false);
         glProg.setTexture("InputBuffer",in);
         glProg.drawBlocks(out,out.mSize);
         glProg.closed = true;
@@ -435,7 +435,7 @@ public class GLUtils {
                 "void main() {\n" +
                 "    vec2 xy = vec2(gl_FragCoord.xy);\n" +
                 "    xy+=vec2(0,yOffset);\n" +
-                "    Output = tvar(textureBicubic(InputBuffer, (vec2(xy)*"+1.0/zoom+"/vec2(size)))"+in.mFormat.getTemExt()+");\n" +
+                "    Output = tvar(textureBicubicHardware(InputBuffer, (vec2(xy)*"+1.0/zoom+"/vec2(size)))"+in.mFormat.getTemExt()+");\n" +
                 "}\n");
         glProg.setTexture("InputBuffer",in);
         glProg.setVar("size",size);
@@ -504,7 +504,7 @@ public class GLUtils {
         glProg.setDefine("TSAMP",dxy.mFormat.getTemSamp());
         glProg.setDefine("INSIZE", Utilities.addP(dxy.mSize,0));
         //glProg.setDefine("SIZE",size);
-        glProg.useProgram(PhotonCamera.getAssetLoader().getString("corners.glsl"));
+        glProg.useAssetProgram("corners",false);
         glProg.setTexture("InputBufferdxy",dxy);
         glProg.drawBlocks(out,dxy.mSize);
         glProg.closed = true;
@@ -519,7 +519,7 @@ public class GLUtils {
         glProg.setDefine("INSIZE", in.mSize);
         glProg.setDefine("GRADSHIFT",gradientShift);
         if(out.mFormat.mChannels >= 3) glProg.setDefine("TEXSIZE", 3);
-        glProg.useProgram(PhotonCamera.getAssetLoader().getString("convdiff.glsl"));
+        glProg.useAssetProgram("convdiff",false);
         glProg.setVar("rotation",rotation);
         glProg.setTexture("InputBuffer",in);
         glProg.drawBlocks(out,in.mSize);
@@ -531,7 +531,7 @@ public class GLUtils {
         glProg.setDefine("tscal",in.mFormat.getScalar());
         glProg.setDefine("TSAMP",in.mFormat.getTemSamp());
         glProg.setDefine("INSIZE", Utilities.addP(in.mSize,-1));
-        glProg.useProgram(PhotonCamera.getAssetLoader().getString("maximaze.glsl"));
+        glProg.useAssetProgram("maximaze",false);
         glProg.setTexture("InputBuffer",in);
         glProg.setTexture("InputBuffer2",in2);
         glProg.drawBlocks(out,out.mSize);
@@ -744,7 +744,7 @@ public class GLUtils {
                 glUtils.interpolate(gauss[i - 1],gauss[i]);
             }
             System.arraycopy(gauss, 1, upscale, 0, upscale.length);
-            glProg.useProgram(PhotonCamera.getAssetLoader().getString("pyramiddiff.glsl"));
+            glProg.useAssetProgram("pyramiddiff",false);
             for (int i = 0; i < laplace.length; i++) {
                 glProg.setTexture("target", gauss[i]);
                 glProg.setTexture("base", upscale[i]);
@@ -763,7 +763,7 @@ public class GLUtils {
         }
         public GLTexture getLaplace(int number){
             if(number > sizes.length || number < 0) return null;
-            glProg.useProgram(PhotonCamera.getAssetLoader().getString("pyramiddiff.glsl"));
+            glProg.useAssetProgram("pyramiddiff",false);
             GLTexture downscaled = getGauss(number);
             glProg.setTexture("target", downscaled);
             glProg.setTexture("base", getGauss(number+1));
@@ -851,7 +851,7 @@ public class GLUtils {
             //Log.d("Pyramid","point:"+pyramid.sizes[i]+" after:"+upscale[i].mSize);
         }
 
-        glProg.useProgram(PhotonCamera.getAssetLoader().getString("pyramiddiff.glsl"));
+        glProg.useUtilProgram("pyramiddiff",false);
         GLTexture[] diff = new GLTexture[upscale.length];
         for (int i = 0; i < diff.length; i++) {
             glProg.setTexture("target", downscaled[i]);

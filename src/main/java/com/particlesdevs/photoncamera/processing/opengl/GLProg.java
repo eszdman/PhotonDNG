@@ -90,6 +90,22 @@ public class GLProg implements AutoCloseable {
         else {
             shader = GLInterface.loadShader(fragmentRes);
         }
+        useShader(shader,compute);
+    }
+    public void useProgram(String programSource) {
+        useProgram(programSource,false);
+    }
+    public void useProgram(String programSource, boolean compute) {
+        isCompute = compute;
+        closed = false;
+        String shader;
+        if(changedDef) shader = GLInterface.loadShader(programSource,Defines);
+        else {
+            shader = GLInterface.loadShader(programSource);
+        }
+        useShader(shader,compute);
+    }
+    private void useShader(String shader, boolean compute){
         mComputeLayouts = GLInterface.getLayouts(shader);
         if(mProgramCache.containsKey(shader)) {
             Defines.clear();
@@ -122,39 +138,6 @@ public class GLProg implements AutoCloseable {
         }
         mTextureBinds.clear();
         mNewTextureId = 0;
-    }
-    public void useProgram(String programSource) {
-        useProgram(programSource,false);
-    }
-    public void useProgram(String programSource, boolean compute) {
-        isCompute = compute;
-        closed = false;
-        String shader;
-        if(changedDef) shader = GLInterface.loadShader(programSource,Defines);
-        else {
-            shader = GLInterface.loadShader(programSource);
-        }
-        int program;
-        int nShader;
-        if(!compute) {
-            nShader = compileShader(GL_FRAGMENT_SHADER, shader);
-            program = createProgram(vertexShader, nShader);
-        } else {
-            nShader = compileShader(GL_COMPUTE_SHADER, shader);
-            program = glCreateProgram();
-            glAttachShader(program,nShader);
-            glLinkProgram(program);
-        }
-        glLinkProgram(program);
-        glGetError();
-        //checkEglError("glLinkProgram");
-        glUseProgram(program);
-        checkEglError("glUseProgram");
-        mCurrentProgramActive = program;
-        mTextureBinds.clear();
-        mNewTextureId = 0;
-        Defines.clear();
-        changedDef = false;
     }
 
     /**
@@ -443,8 +426,8 @@ public class GLProg implements AutoCloseable {
     @Override
     public void close() {
         closed = true;
-        for (int program : mPrograms) {
-            glDeleteProgram(program);
-        }
+        //for (int program : mPrograms) {
+        //    glDeleteProgram(program);
+        //}
     }
 }

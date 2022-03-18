@@ -28,7 +28,7 @@ public class GLTexture implements AutoCloseable {
         this(in.mSize,in.mFormat,null,in.mFormat.filter,in.mFormat.wrap,0);
     }
     public GLTexture(int sizeX, int sizeY, GLFormat glFormat, Buffer pixels) {
-        this(new Point(sizeX, sizeY), new GLFormat(glFormat), pixels, GL_NEAREST, GL_CLAMP_TO_EDGE,0);
+        this(new Point(sizeX, sizeY), new GLFormat(glFormat), pixels, GL_LINEAR, GL_CLAMP_TO_EDGE,0);
     }
     public GLTexture(int sizeX, int sizeY, GLFormat glFormat, Buffer pixels,int textureFilter, int textureWrapper) {
         this(new Point(sizeX, sizeY), new GLFormat(glFormat), pixels, textureFilter, textureWrapper,0);
@@ -37,19 +37,19 @@ public class GLTexture implements AutoCloseable {
         this(new Point(size), new GLFormat(glFormat), pixels, textureFilter, textureWrapper,0);
     }
     public GLTexture(Point size, GLFormat glFormat, Buffer pixels) {
-        this(new Point(size), new GLFormat(glFormat), pixels, GL_NEAREST, GL_CLAMP_TO_EDGE,0);
+        this(new Point(size), new GLFormat(glFormat), pixels, GL_LINEAR, GL_CLAMP_TO_EDGE,0);
     }
     public GLTexture(int sizeX, int sizeY, GLFormat glFormat,int level) {
-        this(new Point(sizeX, sizeY), new GLFormat(glFormat), null, GL_NEAREST, GL_CLAMP_TO_EDGE,level);
+        this(new Point(sizeX, sizeY), new GLFormat(glFormat), null, GL_LINEAR, GL_CLAMP_TO_EDGE,level);
     }
     public GLTexture(int sizeX, int sizeY, GLFormat glFormat) {
-        this(new Point(sizeX, sizeY), new GLFormat(glFormat), null, GL_NEAREST, GL_CLAMP_TO_EDGE,0);
+        this(new Point(sizeX, sizeY), new GLFormat(glFormat), null, GL_LINEAR, GL_CLAMP_TO_EDGE,0);
     }
     public GLTexture(int sizeX, int sizeY, GLFormat glFormat,int textureFilter, int textureWrapper) {
         this(new Point(sizeX, sizeY), new GLFormat(glFormat), null, textureFilter, textureWrapper,0);
     }
     public GLTexture(Point size, GLFormat glFormat,int level) {
-        this(new Point(size), new GLFormat(glFormat), null, GL_NEAREST, GL_CLAMP_TO_EDGE,level);
+        this(new Point(size), new GLFormat(glFormat), null, GL_LINEAR, GL_CLAMP_TO_EDGE,level);
     }
     public GLTexture(Point size, GLFormat glFormat) {
         this(new Point(size), new GLFormat(glFormat), null, glFormat.filter, glFormat.wrap,0);
@@ -61,7 +61,7 @@ public class GLTexture implements AutoCloseable {
         this(bmp,0);
     }
     public GLTexture(GLImage bmp,int level){
-        this(bmp,GL_NEAREST,GL_CLAMP_TO_EDGE,level);
+        this(bmp,GL_LINEAR,GL_CLAMP_TO_EDGE,level);
     }
     public GLTexture(GLImage bmp, int textureFilter, int textureWrapper,int level) {
         this.mSize = bmp.size;
@@ -86,12 +86,11 @@ public class GLTexture implements AutoCloseable {
         //Log.d("GLTexture","Size:"+size+" ID:"+mTextureID);
         glActiveTexture(GL_TEXTURE1+mTextureID);
         glBindTexture(GL_TEXTURE_2D, mTextureID);
-        glTexStorage2D(GL_TEXTURE_2D, 1, mFormat.getGLFormatInternal(),  mSize.x, mSize.y);
-        checkEglError("glTexStorage2D");
-        if(bmp.byteBuffer != null)
-            glTexSubImage2D(GL_TEXTURE_2D, level, 0, 0, mSize.x, mSize.y, mFormat.getGLFormatExternal(), mFormat.getGLType(),bmp.byteBuffer);
-        else
-            glTexSubImage2D(GL_TEXTURE_2D, level, 0, 0, mSize.x, mSize.y, mFormat.getGLFormatExternal(), mFormat.getGLType(), 0);
+        if(bmp.byteBuffer != null) {
+            glTexStorage2D(GL_TEXTURE_2D, 1, mFormat.getGLFormatInternal(),  mSize.x, mSize.y);
+            checkEglError("glTexStorage2D");
+            glTexSubImage2D(GL_TEXTURE_2D, level, 0, 0, mSize.x, mSize.y, mFormat.getGLFormatExternal(), mFormat.getGLType(), bmp.byteBuffer);
+        } else glTexImage2D(GL_TEXTURE_2D, level,mFormat.getGLFormatInternal(), mSize.x, mSize.y,0, mFormat.getGLFormatExternal(), mFormat.getGLType(), 0);
         checkEglError("glTexSubImage2D");
         reSetParameters();
         checkEglError("Tex glTexParameter");
@@ -119,12 +118,12 @@ public class GLTexture implements AutoCloseable {
         //Log.d("GLTexture","Size:"+size+" ID:"+mTextureID);
         glActiveTexture(GL_TEXTURE1+mTextureID);
         glBindTexture(GL_TEXTURE_2D, mTextureID);
-        glTexStorage2D(GL_TEXTURE_2D, 1, glFormat.getGLFormatInternal(),  size.x, size.y);
-        checkEglError("glTexStorage2D");
-        if(pixels != null)
+        if(pixels != null) {
+            glTexStorage2D(GL_TEXTURE_2D, 1, glFormat.getGLFormatInternal(),  size.x, size.y);
+            checkEglError("glTexStorage2D");
             glTexSubImage2D(GL_TEXTURE_2D, level, 0, 0, size.x, size.y, glFormat.getGLFormatExternal(), glFormat.getGLType(), (ByteBuffer) pixels);
-        else
-            glTexSubImage2D(GL_TEXTURE_2D, level, 0, 0, size.x, size.y, glFormat.getGLFormatExternal(), glFormat.getGLType(), 0);
+        }
+        else glTexImage2D(GL_TEXTURE_2D, level,mFormat.getGLFormatInternal(), mSize.x, mSize.y,0, mFormat.getGLFormatExternal(), mFormat.getGLType(), 0);
         checkEglError("glTexSubImage2D");
         reSetParameters();
         checkEglError("Tex glTexParameter");

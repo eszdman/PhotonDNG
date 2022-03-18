@@ -29,13 +29,12 @@ public class JpegProcessor {
         int cnt = 0;
         PostPipeline pipeline = new PostPipeline();
         Parameters parameters = new Parameters();
-
-        for (ByteBuffer buffer : mByteBuffersToProcess){
-            DNGReader dngReader = new DNGReader(buffer);
+        for(int i =0; i<mByteBuffersToProcess.size();i++){
+            DNGReader dngReader = new DNGReader(mByteBuffersToProcess.get(i));
             dngReader.FillParameters(parameters);
             GLImage out = pipeline.Run(dngReader.ReadRawBuffer(),parameters);
-            out.save(new File(namePatch+cnt+".png"));
-            cnt++;
+            out.save(new File(namePatch+i+".png"));
         }
+        mByteBuffersToProcess.clear();
     }
 }

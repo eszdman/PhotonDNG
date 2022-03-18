@@ -101,6 +101,25 @@ public class DNGReader {
 
         parameters.FillConstParameters(imageSize);
         parameters.FillDynamicParameters();
+        TIFFTag Op2 = tags.get(TIFF.TAG_OpcodeList2);
+        if (Op2 != null) {
+            Object[] opParsed = OpParser.parseAll(Op2.getByteArray());
+            OpParser.GainMap[] mapPlanes = new OpParser.GainMap[4];
+            for (Object o : opParsed) {
+                Log.e(TAG, "Parsed opcode: " + o.toString());
+                if (o instanceof OpParser.GainMap mapPlane) {
+                    mapPlanes[(mapPlane.top << 1) | mapPlane.left] = mapPlane;
+                }
+            }
+            if (mapPlanes[0] != null && mapPlanes[1] != null
+                    && mapPlanes[2] != null && mapPlanes[3] != null) {
+                parameters.mapSize = new Point(mapPlanes[0].mapPointsH, mapPlanes[0].mapPointsV);
+                parameters.gainMap = new float[parameters.mapSize.x * parameters.mapSize.y * 4];
+                for (int i = 0; i < parameters.gainMap.length; i++) {
+                    parameters.gainMap[i] = mapPlanes[i % 4].px[i / 4];
+                }
+            }
+        }
     }
 
     public ByteBuffer ReadRawBuffer(){

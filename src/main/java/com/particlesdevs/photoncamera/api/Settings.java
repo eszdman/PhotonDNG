@@ -15,11 +15,11 @@ public class Settings {
     public boolean hdrx;
     public boolean hdrxNR;
     public double exposureCompensation;
-    public double saturation;
+    public double saturation = 1.0;
     public double sharpness;
     public double contrastMpy = 1.0;
     public int contrastConst = 0;//TODO
-    public double noiseRstr;
+    public double noiseRstr = 1.0;
     public double mergeStrength;
     public double compressor;
     public double gain;

@@ -45,6 +45,10 @@ public class GLContext implements AutoCloseable {
         glfwDefaultWindowHints(); // optional, the current window hints are already the default
         glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE); // the window will stay hidden after creation
         glfwWindowHint(GLFW_RESIZABLE, GLFW_TRUE); // the window will be resizable
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR,3);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR,3);
+        glfwWindowHint(GLFW_OPENGL_PROFILE,GLFW_OPENGL_COMPAT_PROFILE);
+        glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT,GLFW_TRUE);
 
 
         // Create the window

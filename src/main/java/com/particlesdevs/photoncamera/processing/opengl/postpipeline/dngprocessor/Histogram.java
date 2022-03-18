@@ -3,6 +3,8 @@ package com.particlesdevs.photoncamera.processing.opengl.postpipeline.dngprocess
 
 
 import com.particlesdevs.photoncamera.processing.opengl.GLImage;
+import com.particlesdevs.photoncamera.processing.opengl.GLInterface;
+import com.particlesdevs.photoncamera.processing.opengl.scripts.GLHistogram;
 import util.Log.Log;
 
 import static util.Math2.mix;
@@ -40,6 +42,7 @@ public class Histogram {
         int[] histy;
         int[] histz;*/
         //TODO fix
+
         int[][] histin = new int[4][4];//= HistogramRs.getHistogram(bmp);
         histIn = histin[3];
         histInr = histin[2];

@@ -325,7 +325,7 @@ vec3 applyColorSpace(vec3 pRGB,float tonemapGain){
     //pRGB = saturate(pRGB,br);
 
     pRGB = gammaCorrectPixel2(pRGB);
-    pRGB = mix(pRGB*pRGB*pRGB*TONEMAPX3 + pRGB*pRGB*TONEMAPX2 + pRGB*TONEMAPX1,pRGB,min(pRGB*0.8+0.55,1.0));
+    //pRGB = mix(pRGB*pRGB*pRGB*TONEMAPX3 + pRGB*pRGB*TONEMAPX2 + pRGB*TONEMAPX1,pRGB,min(pRGB*0.8+0.55,1.0));
 
     return pRGB;
 }
@@ -429,7 +429,7 @@ void main() {
     float mixG = (sRGB.g-minImg)/(maxImg-minImg);
     mixG = clamp(mixG,0.0,1.0);
     tonemapGain = mix(maxG,minG,mixG);
-    //tonemapGain = mix(1.0,tonemapGain,texture(IntenseCurve, vec2(sRGB.g,0.0)).r);
+    tonemapGain = mix(1.0,tonemapGain,texture(IntenseCurve, vec2(sRGB.g,0.0)).r);
     #endif
 
     float br = (sRGB.r+sRGB.g+sRGB.b)/3.0;
