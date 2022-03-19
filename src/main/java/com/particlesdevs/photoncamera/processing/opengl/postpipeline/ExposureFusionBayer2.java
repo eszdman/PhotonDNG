@@ -264,7 +264,6 @@ public class ExposureFusionBayer2 extends Node {
         Log.d(Name,"TotalGain:"+((PostPipeline)basePipeline).totalGain);
         //overexposure = Math.min(10.f,overexposure);
         //underexposure = Math.max(underexposure,0.0008f);
-        underexposure/=2.0;
         Log.d(Name,"Overexp:"+overexposure+" , Underexp:"+underexposure);
 
         //GLUtils.Pyramid highExpo = glUtils.createPyramid(levelcount,downScalePerLevel, expose(in,overexposure));

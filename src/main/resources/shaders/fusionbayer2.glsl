@@ -41,7 +41,7 @@ void main() {
     //if(useUpsampled == 2) mpy = 2.0;
     float base = (useUpsampled)
     //? texelFetch(upsampled, xyCenter, 0).xyz
-    ? textureBicubicHardware(upsampled, (vec2(xyCenter.xy)+0.5)/(vec2(upscaleIn)-1.0)).r
+    ? textureBicubicHardware(upsampled, (vec2(xyCenter.xy))/(vec2(upscaleIn))).r
     : float(0.0);
     // How are we going to blend these two?
     vec2 normal = texelFetch(normalExpoDiff, xyCenter, 0).rg;

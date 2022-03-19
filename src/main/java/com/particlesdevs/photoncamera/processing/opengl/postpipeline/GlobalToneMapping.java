@@ -7,8 +7,8 @@ public class GlobalToneMapping extends Node {
     public GlobalToneMapping() {
         super(0, "GlobalToneMapping");
     }
-    float intenseHigher = 0.020f;
-    float intenseLower = 0.090f;
+    float intenseHigher = -0.020f;
+    float intenseLower = -0.090f;
     @Override
     public void Compile() {}
     @Override
