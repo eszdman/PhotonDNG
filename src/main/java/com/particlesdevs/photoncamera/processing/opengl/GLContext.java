@@ -24,14 +24,13 @@ public class GLContext implements AutoCloseable {
     public GLContext(int surfaceWidth, int surfaceHeight) {
         createContext(surfaceWidth,surfaceHeight);
         GLUtil.setupDebugMessageCallback();
+
         glGenFramebuffers(bindFB);
         glGenRenderbuffers(bindRB);
         glBindRenderbuffer(GL_RENDERBUFFER,bindRB[0]);
         glRenderbufferStorage(GL_RENDERBUFFER, GL_RGBA8, surfaceWidth, surfaceHeight);
         glBindFramebuffer(GL_DRAW_FRAMEBUFFER,bindFB[0]);
         glFramebufferRenderbuffer(GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, bindRB[0]);
-
-
 
     }
     public void createContext(int surfaceWidth, int surfaceHeight){

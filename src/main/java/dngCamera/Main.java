@@ -22,7 +22,8 @@ public class Main {
             e.printStackTrace();
         }
         FileManager.CreateFolders();
-        new PhotonCamera();
+        new PhotonCamera(args);
+
 //        Parameters parameters = new Parameters();
 //
 //        File dng = new File("./IMG_20220316_175154.dng");

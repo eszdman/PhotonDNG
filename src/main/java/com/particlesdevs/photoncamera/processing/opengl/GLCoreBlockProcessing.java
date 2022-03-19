@@ -62,6 +62,7 @@ public class GLCoreBlockProcessing extends GLContext {
     }
 
     public void drawBlocksToOutput() {
+        glBindFramebuffer(GL_FRAMEBUFFER, bindFB[0]);
         GLProg program = super.mProgram;
         GLBlockDivider divider = new GLBlockDivider(mOutHeight, GLDrawParams.TileSize);
         int[] row = new int[2];
@@ -90,6 +91,7 @@ public class GLCoreBlockProcessing extends GLContext {
         mOutBuffer.position(0);
         mBlockBuffer = null;
         if (mOut != null) mOut.byteBuffer.put(mOutBuffer);
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
     }
 
 
