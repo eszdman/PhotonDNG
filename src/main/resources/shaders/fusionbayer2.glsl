@@ -80,6 +80,7 @@ void main() {
     //result = base + mix(normal.r, high.r, blend*blend)*(max(1.0, 1.4 - 0.4*(float(level)/float(MAXLEVEL))));
     //result = base + mix(normal.r, high.r, blend*blend)*(max(1.0, 1.1 - 0.1*(float(level)/float(MAXLEVEL))));
     result = base + mix(normal.r, high.r, blend)*blendMpy;
+    result = clamp(result,0.0,1.0);
     //if(level == 0){
     //    result = result*result;
     //}

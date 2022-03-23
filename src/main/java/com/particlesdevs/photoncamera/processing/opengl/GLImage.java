@@ -18,7 +18,7 @@ import java.nio.ShortBuffer;
 
 public class GLImage implements AutoCloseable {
     private static String TAG = "GLImage";
-    Point size;
+    public Point size;
     public ByteBuffer byteBuffer;
     GLFormat glFormat;
 

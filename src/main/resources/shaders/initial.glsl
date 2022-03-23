@@ -279,6 +279,7 @@ vec3 applyColorSpace(vec3 pRGB,float tonemapGain){
     pRGB/=br;
     br*=tonemapGain;
     pRGB*=br;
+
     //ISO tint correction
     //pRGB = mix(vec3(pRGB.r*0.99*(TINT2),pRGB.g*(TINT),pRGB.b*1.025*(TINT2)),pRGB,clamp(br*10.0,0.0,1.0));
 
@@ -392,7 +393,7 @@ void main() {
     float mixG = (sRGB.g-minImg)/(maxImg-minImg);
     mixG = clamp(mixG,0.0,1.0);
     tonemapGain = mix(maxG,minG,mixG);
-    //tonemapGain = mix(1.0,tonemapGain,texture(IntenseCurve, vec2(sRGB.g,0.0)).r);
+    tonemapGain = mix(1.0,tonemapGain,texture(IntenseCurve, vec2(sRGB.g,0.0)).r);
     #endif
 
     float br = (sRGB.r+sRGB.g+sRGB.b)/3.0;

@@ -25,6 +25,7 @@ public class GLHistogram implements AutoCloseable{
     }
     public GLHistogram(GLContext context) {
         this.context = context;
+        externalContext = true;
         glProg = context.mProgram;
         buffers[0] = new GLBuffer(histSize,histFormat);
         buffers[1] = new GLBuffer(histSize,histFormat);

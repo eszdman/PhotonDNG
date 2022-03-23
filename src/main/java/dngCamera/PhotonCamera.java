@@ -23,12 +23,12 @@ public class PhotonCamera {
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setSize(600, 300);
             mMainUI = new MainUI(frame);
+        } else {
+            File consoleF = new File(args[0]);
+            PhotonCamera.getJpegProcessor().Add(ByteBufferReader.read(consoleF));
+            PhotonCamera.getJpegProcessor().namePatch = consoleF.getName();
+            PhotonCamera.getJpegProcessor().Run();
         }
-        File consoleF = new File(args[0]);
-        PhotonCamera.getJpegProcessor().Add(ByteBufferReader.read(consoleF));
-        PhotonCamera.getJpegProcessor().namePatch = consoleF.getName();
-        PhotonCamera.getJpegProcessor().Run();
-
     }
     private static PhotonCamera sPhotonCamera;
     private AssetLoader mAssetLoader;
