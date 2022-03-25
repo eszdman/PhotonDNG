@@ -31,6 +31,7 @@ public class ExposureFusionBayer2 extends Node {
         glProg.setDefine("NEUTRALPOINT",basePipeline.mParameters.whitePoint);
         glProg.setDefine("STRLOW",strLow);
         glProg.setDefine("STRHIGH",strHigh);
+        glProg.setDefine("CURVE",true);
         glProg.useAssetProgram("exposebayer2",false);
         glProg.setTexture("InputBuffer",in);
         glProg.setTexture("InterpolatedCurve",interpolatedCurve);

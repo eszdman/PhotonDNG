@@ -25,16 +25,18 @@ public class JpegProcessor {
             mByteBuffersToProcess.add(buffer);
         }
     }
-    public void Run(){
+    public GLImage Run(){
         int cnt = 0;
         PostPipeline pipeline = new PostPipeline();
         Parameters parameters = new Parameters();
+        GLImage last = null;
         for(int i =0; i<mByteBuffersToProcess.size();i++){
             DNGReader dngReader = new DNGReader(mByteBuffersToProcess.get(i));
             dngReader.FillParameters(parameters);
-            GLImage out = pipeline.Run(dngReader.ReadRawBuffer(),parameters);
-            out.save(new File(namePatch+i+".png"));
+            last = pipeline.Run(dngReader.ReadRawBuffer(),parameters);
+            //last.save(new File(namePatch+i+".png"));
         }
         mByteBuffersToProcess.clear();
+        return last;
     }
 }

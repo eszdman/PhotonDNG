@@ -122,7 +122,7 @@ public class PostPipeline extends GLBasePipeline {
 
         add(new Initial());
 
-        //add(new Equalization());
+        add(new Equalization());
 
         //add(new GlobalToneMapping());
 

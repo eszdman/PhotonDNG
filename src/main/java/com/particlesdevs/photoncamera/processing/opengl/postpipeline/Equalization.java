@@ -47,6 +47,7 @@ public class Equalization extends Node {
         if(customAnalyzelut.exists()){
             analyze_lutbm = new GLImage(customAnalyzelut);
             analyze_lut = new GLTexture(analyze_lutbm,GL_LINEAR,GL_CLAMP_TO_EDGE,0);
+            loaded = true;
         } else {
             //try {
                 analyze_lutbm = new GLImage(PhotonCamera.getAssetLoader().getInputStream("analyze_lut.png"));
@@ -79,6 +80,7 @@ public class Equalization extends Node {
         endT("Equalization Part 01");
         startT();
         GLHistogram histogram = new GLHistogram(basePipeline.glint.glProcessing);
+        histogram.Compute(r1);
         endT("Equalization Part 02");
         r1.close();
 
@@ -256,6 +258,7 @@ public class Equalization extends Node {
         float centerY = 0.f;
         float msum = 0.f;
         float centerX = mix(blwl[0],blwl[1],curveCenter);
+
         for(int i =(int)blwl[0]; i<(int)blwl[1];i++){
             float k = pdf((i-mix(blwl[0],blwl[1],analyzeCenter))/blwl[1],1.f);
             centerY+=k*input[i];
@@ -273,6 +276,7 @@ public class Equalization extends Node {
         my.add(0.f);
         //my.add(0.f);
         my.add(centerY);
+
         my.add(1.f);
         //my.add(1.f);
         Log.d(Name,"blwl[0]:"+blwl[0]);
@@ -573,7 +577,7 @@ public class Equalization extends Node {
         float WL = findWL(histr,histg,histb);
         float BL = findBL(histr,histg,histb);
         float[] blwl = new float[]{BL,WL};
-        double compensation = averageCurve.length/WL;
+        //double compensation = averageCurve.length/WL;
         if(useOldEqualization){
             hist = bSpline(hist,blwl);
         } else
@@ -676,7 +680,8 @@ public class Equalization extends Node {
                 BufferUtils.getFrom(hist), GL_LINEAR, GL_CLAMP_TO_EDGE);
         //GLTexture shadows = new GLTexture(hist.length,1,new GLFormat(GLFormat.DataType.FLOAT_16,3),
         //        FloatBuffer.wrap(shadowCurve), GL_LINEAR, GL_CLAMP_TO_EDGE);
-        glProg.setDefine("BL2",BLPredictShift);
+        if(!Float.isNaN(BLPredictShift[0]))
+            glProg.setDefine("BL2",BLPredictShift);
         glProg.setDefine("BR",(float)(shadowW)*shadowsSensitivity);
         File customlut = new File(FileManager.sPHOTON_TUNING_DIR,"lut.png");
         glProg.setDefine("TONEMAP",enableTonemap);
@@ -693,19 +698,20 @@ public class Equalization extends Node {
         endT("Equalization Part 2");
         startT();
         glProg.useAssetProgram("equalize");
-        if(lut != null) glProg.setTexture("LookupTable",lut);
+        if(lut != null)
+            glProg.setTexture("LookupTable",lut);
         glProg.setTexture("Histogram",histogram);
         //glProg.setTexture("Shadows",shadows);
-        GLTexture TonemapCoeffs = new GLTexture(new Point(256, 1),
-                new GLFormat(GLFormat.DataType.FLOAT_16,1),BufferUtils.getFrom(basePipeline.mSettings.toneMap),GL_LINEAR,GL_CLAMP_TO_EDGE);
-        glProg.setTexture("TonemapTex",TonemapCoeffs);
+        //GLTexture TonemapCoeffs = new GLTexture(new Point(256, 1),
+        //        new GLFormat(GLFormat.DataType.FLOAT_16,1),BufferUtils.getFrom(basePipeline.mSettings.toneMap),GL_LINEAR,GL_CLAMP_TO_EDGE);
+        //glProg.setTexture("TonemapTex",TonemapCoeffs);
         glProg.setVar("toneMapCoeffs", tonemapCoeffs);
         glProg.setTexture("InputBuffer",previousNode.WorkingTexture);
         glProg.drawBlocks(WorkingTexture);
         histogram.close();
         if(lutbm != null) lutbm.close();
         if(lut != null) lut.close();
-        TonemapCoeffs.close();
+        //TonemapCoeffs.close();
         glProg.closed = true;
         endT("Equalization Part 3");
     }
