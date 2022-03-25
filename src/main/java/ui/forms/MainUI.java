@@ -5,6 +5,7 @@ import dngCamera.PhotonCamera;
 import com.particlesdevs.photoncamera.processing.processor.ByteBufferReader;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileFilter;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
@@ -27,6 +28,19 @@ public class MainUI {
         frame.setVisible(true);
         OpenDNG.addActionListener(e -> {
             JFileChooser j = new JFileChooser(new File("./"));
+            j.setFileFilter(new FileFilter() {
+                public String getDescription() {
+                    return "Raw files (*.dng)";
+                }
+
+                public boolean accept(File f) {
+                    if (f.isDirectory()) {
+                        return true;
+                    } else {
+                        return f.getName().toLowerCase().endsWith(".dng");
+                    }
+                }
+            });
             int r = j.showOpenDialog(null);
             if(r == JFileChooser.APPROVE_OPTION){
                 PhotonCamera.getJpegProcessor().Add(ByteBufferReader.read(j.getSelectedFile()));
