@@ -2,7 +2,7 @@ package dngCamera;
 
 import com.particlesdevs.photoncamera.api.Settings;
 import com.particlesdevs.photoncamera.processing.processor.ByteBufferReader;
-import com.particlesdevs.photoncamera.processing.processor.JpegProcessor;
+import com.particlesdevs.photoncamera.processing.processor.FileProcessor;
 import ui.forms.MainUI;
 import util.AssetLoader;
 
@@ -16,7 +16,7 @@ public class PhotonCamera {
         mAssetLoader = new AssetLoader();
         mSettings = new Settings();
         ProcessingEventsListener processingEventsListener = new ProcessingManager();
-        mJpegProcessor = new JpegProcessor(processingEventsListener);
+        mJpegProcessor = new FileProcessor(processingEventsListener);
         System.out.println("args:"+ Arrays.toString(args));
         if(args.length < 1) {
             JFrame frame = new JFrame("PhotonDNG");
@@ -32,7 +32,7 @@ public class PhotonCamera {
     }
     private static PhotonCamera sPhotonCamera;
     private AssetLoader mAssetLoader;
-    private JpegProcessor mJpegProcessor;
+    private FileProcessor mJpegProcessor;
     private Settings mSettings;
     private MainUI mMainUI;
 
@@ -42,7 +42,7 @@ public class PhotonCamera {
     public static Settings getSettings(){
         return sPhotonCamera.mSettings;
     }
-    public static JpegProcessor getJpegProcessor(){
+    public static FileProcessor getJpegProcessor(){
         return sPhotonCamera.mJpegProcessor;
     }
     public static MainUI getMainUI(){

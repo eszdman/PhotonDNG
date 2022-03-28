@@ -6,17 +6,16 @@ import com.particlesdevs.photoncamera.processing.opengl.postpipeline.PostPipelin
 import com.particlesdevs.photoncamera.processing.render.Parameters;
 import dngCamera.parser.DNGReader;
 
-import java.io.File;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 
-public class JpegProcessor {
+public class FileProcessor {
     protected final ProcessingEventsListener processingEventsListener;
     private static final String TAG = "JpegProcessor";
     public String namePatch = "processed";
     private ArrayList<ByteBuffer> mByteBuffersToProcess = new ArrayList<>();
 
-    public JpegProcessor(ProcessingEventsListener processingEventsListener) {
+    public FileProcessor(ProcessingEventsListener processingEventsListener) {
         this.processingEventsListener = processingEventsListener;
     }
 

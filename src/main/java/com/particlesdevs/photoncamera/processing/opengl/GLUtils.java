@@ -435,8 +435,9 @@ public class GLUtils {
                 "void main() {\n" +
                 "    vec2 xy = vec2(gl_FragCoord.xy);\n" +
                 "    xy+=vec2(0,yOffset);\n" +
-                "    Output = tvar(textureBicubicHardware(InputBuffer, ((vec2(xy)-1.0)*"+1.0/zoom+"/vec2(size)))"+in.mFormat.getTemExt()+");\n" +
+                "    Output = tvar(textureBicubicHardware(InputBuffer, ((vec2(xy))*"+1.0/zoom+"/vec2(size)))"+in.mFormat.getTemExt()+");\n" +
                 "}\n");
+
         glProg.setTexture("InputBuffer",in);
         glProg.setVar("size",size);
         glProg.drawBlocks(out,out.mSize);
@@ -460,7 +461,7 @@ public class GLUtils {
                 "void main() {\n" +
                 "    vec2 xy = vec2(gl_FragCoord.xy);\n" +
                 "    xy+=vec2(0,yOffset);\n" +
-                "    Output = tvar(textureBicubicHardware(InputBuffer, ((vec2(xy)-1.0)/vec2(size)))"+in.mFormat.getTemExt()+");\n" +
+                "    Output = tvar(textureBicubicHardware(InputBuffer, ((vec2(xy))/vec2(size)))"+in.mFormat.getTemExt()+");\n" +
                 "}\n");
         glProg.setTexture("InputBuffer",in);
         glProg.setVar("size",(int)(in.mSize.x*k),(int)(in.mSize.y*k));

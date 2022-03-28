@@ -41,6 +41,8 @@ public class MainUI {
                     }
                 }
             });
+            j.setFileSelectionMode(JFileChooser.FILES_AND_DIRECTORIES);
+            j.setAcceptAllFileFilterUsed(false);
             int r = j.showOpenDialog(null);
             if(r == JFileChooser.APPROVE_OPTION){
                 PhotonCamera.getJpegProcessor().Add(ByteBufferReader.read(j.getSelectedFile()));
@@ -48,15 +50,11 @@ public class MainUI {
                 PhotonCamera.getJpegProcessor().namePatch = j.getSelectedFile().getName();
                 lastImage = PhotonCamera.getJpegProcessor().Run();
                 BufferedImage bufferedImage = lastImage.getBufferedImage();
-                rawDraw.getGraphics().drawImage(bufferedImage,0,0,rawDraw.getWidth(),rawDraw.getHeight(),null);
+                mainPanel.getGraphics().drawImage(bufferedImage,0,0,mainPanel.getWidth(),mainPanel.getHeight(),null);
             }
         });
         SavePNG.addActionListener(e -> {
-            JFileChooser j = new JFileChooser(new File("./"));
-            int r = j.showOpenDialog(null);
-            if(r == JFileChooser.APPROVE_OPTION){
-                lastImage.save(new File(j.getSelectedFile().getName()+".png"));
-            }
+            lastImage.save(new File(lastFile.getName()+".png"));
         });
         reprocessButton.addActionListener(new ActionListener() {
             /**
@@ -71,7 +69,7 @@ public class MainUI {
                     PhotonCamera.getJpegProcessor().namePatch = lastFile.getName();
                     lastImage = PhotonCamera.getJpegProcessor().Run();
                     BufferedImage bufferedImage = lastImage.getBufferedImage();
-                    rawDraw.getGraphics().drawImage(bufferedImage,0,0,rawDraw.getWidth(),rawDraw.getHeight(),null);
+                    mainPanel.getGraphics().drawImage(bufferedImage,0,0,mainPanel.getWidth(),mainPanel.getHeight(),null);
                 }
             }
         });
