@@ -7,6 +7,7 @@ import com.particlesdevs.photoncamera.processing.opengl.GLImage;
 import com.particlesdevs.photoncamera.processing.opengl.GLTexture;
 import com.particlesdevs.photoncamera.processing.opengl.nodes.Node;
 import com.particlesdevs.photoncamera.processing.render.ColorCorrectionTransform;
+import dngCamera.PhotonCamera;
 import util.BufferUtils;
 import util.FileManager;
 import util.Log.Log;
@@ -225,14 +226,14 @@ import static util.Math2.mix;
         }
         GammaTexture = new GLTexture(gamma.length,1,
                 new GLFormat(GLFormat.DataType.FLOAT_16),BufferUtils.getFrom(gamma),GL_LINEAR,GL_CLAMP_TO_EDGE);
-//        File customlut = new File(FileManager.sPHOTON_TUNING_DIR,"initial_lut.png");
-//        if(customlut.exists()){
-//            lutbm = GLImageFactory.decodeFile(customlut.getAbsolutePath());
-//            glProg.setDefine("LUT",true);
-//        } else {
-//            lutbm = GLImageFactory.decodeResource(PhotonCamera.getResourcesStatic(),R.drawable.initial_lut);
-//        }
-//        lut = new GLTexture(lutbm,GL_LINEAR,GL_CLAMP_TO_EDGE,0);
+        File customlut = new File(FileManager.sPHOTON_TUNING_DIR,"initial_lut.png");
+        if(customlut.exists()){
+            lutbm = new GLImage(customlut);
+            glProg.setDefine("LUT",true);
+        } else {
+            lutbm = new GLImage(PhotonCamera.getAssetLoader().getInputStream("initial_lut.png"));
+        }
+        lut = new GLTexture(lutbm,GL_LINEAR,GL_CLAMP_TO_EDGE,0);
         //glProg.setTexture("LookupTable",lut);
         //glProg.setTexture("TonemapTex",TonemapCoeffs);
         glProg.setTexture("GammaCurve",GammaTexture);

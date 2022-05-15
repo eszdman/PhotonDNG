@@ -126,13 +126,13 @@ public class PostPipeline extends GLBasePipeline {
 
         //add(new GlobalToneMapping());
 
-        add(new CaptureSharpening());
+        //add(new CaptureSharpening());
 
-        add(new CorrectingFlow());
+        //add(new CorrectingFlow());
 
         //add(new ChromaticFlow());
 
-        add(new Sharpen2());
+        //add(new Sharpen2());
 
         add(new RotateWatermark(getRotation()));
     }

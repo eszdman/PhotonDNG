@@ -25,7 +25,7 @@ public class Bayer2Float extends Node {
     @Override
     public void Run() {
         PostPipeline postPipeline = (PostPipeline)basePipeline;
-        GLTexture in = new GLTexture(basePipeline.mParameters.rawSize, new GLFormat(GLFormat.DataType.UNSIGNED_16), ((PostPipeline)(basePipeline)).stackFrame);
+        GLTexture in = new GLTexture(basePipeline.mParameters.rawSize, new GLFormat(GLFormat.DataType.SIMPLE_16), ((PostPipeline)(basePipeline)).stackFrame);
         GLTexture GainMapTex = new GLTexture(basePipeline.mParameters.mapSize, new GLFormat(GLFormat.DataType.FLOAT_16,4),
                 BufferUtils.getFrom(basePipeline.mParameters.gainMap),GL_LINEAR,GL_CLAMP_TO_EDGE);
         float[] BL = new float[3];

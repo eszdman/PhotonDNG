@@ -38,7 +38,7 @@ public class RotateWatermark extends Node {
         glProg.setDefine("WATERMARK",watermarkNeeded);
         glProg.useAssetProgram("addwatermark_rotate",false);
         InputStream image;
-        image = PhotonCamera.getAssetLoader().getInputStream("watermark\\photoncamera_watermark.png");
+        image = PhotonCamera.getAssetLoader().getInputStream("watermark/photoncamera_watermark.png");
         watermark = new GLImage(image);
         glProg.setTexture("Watermark", new GLTexture(watermark,GL_LINEAR,GL_CLAMP_TO_EDGE,0));
 

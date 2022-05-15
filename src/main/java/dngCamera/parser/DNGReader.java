@@ -11,6 +11,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class DNGReader {
@@ -136,7 +137,9 @@ public class DNGReader {
             dngBuffer.position(stripOffsets[i]).get(rawArr,rawImageOffset,stripByteCounts[i]);
             rawImageOffset += stripByteCounts[i];
         }
+
         rawBuffer.put(rawArr);
+
         rawBuffer.position(0);
         return rawBuffer;
     }

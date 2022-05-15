@@ -15,7 +15,7 @@ public class FileManager {
         int index = name.lastIndexOf(46);
         return ACCEPTED_FILES_EXTENSIONS.contains(-1 == index ? "" : name.substring(index + 1).toUpperCase()) && new File(dir, name).length() > 0;
     };
-    public static File sEXTERNAL_DIR = new File("./");
+    public static File sEXTERNAL_DIR = new File(System.getProperty("user.dir"));
     public static File sPHOTON_DIR = new File(sEXTERNAL_DIR + "//DCIM//PhotonCamera//");
     public static File sPHOTON_RAW_DIR = new File(sEXTERNAL_DIR + "//DCIM//PhotonCamera//Raw//");
     public static File sPHOTON_TUNING_DIR = new File(sEXTERNAL_DIR + "//DCIM//PhotonCamera//Tuning//");

@@ -20,7 +20,7 @@ public class AssetLoader {
         if(in == null) in = ClassLoader.getSystemClassLoader().getResourceAsStream(name);
         if(in == null){
             try {
-                in = new FileInputStream("resources\\"+name);
+                in = new FileInputStream(FileManager.sEXTERNAL_DIR +"/resources/"+name);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }

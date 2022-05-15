@@ -23,7 +23,9 @@ public class GLFormat {
         UNSIGNED_32(10, 4),
         UNSIGNED_64(11, 8),
         BOOLEAN(12, 1),
-        SIMPLE_8(13, 1);
+        SIMPLE_8(13, 1),
+
+        SIMPLE_16(14, 2);
         final int mID;
         public final int mSize;
 
@@ -56,6 +58,7 @@ public class GLFormat {
             case UNSIGNED_8:
             case SIGNED_8:
             case SIMPLE_8:
+            case SIMPLE_16:
                 return BufferedImage.TYPE_INT_ARGB;
         }
         return BufferedImage.TYPE_INT_ARGB;
@@ -146,6 +149,17 @@ public class GLFormat {
                     case 4:
                         return GL_RGBA8;
                 }
+            case SIMPLE_16:
+                switch (mChannels) {
+                    case 1:
+                        return GL_R16;
+                    case 2:
+                        return GL_RG16;
+                    case 3:
+                        return GL_RGB16;
+                    case 4:
+                        return GL_RGBA16;
+                }
             case SIGNED_16:
                 switch (mChannels) {
                     case 1:
@@ -182,6 +196,7 @@ public class GLFormat {
             case FLOAT_64:
             case SIGNED_8:
             case SIMPLE_8:
+            case SIMPLE_16:
             case UNSIGNED_8:
                 switch (mChannels) {
                     case 1:
@@ -222,6 +237,7 @@ public class GLFormat {
             case UNSIGNED_8:
                 return GL_UNSIGNED_BYTE;
             case UNSIGNED_16:
+            case SIMPLE_16:
                 return GL_UNSIGNED_SHORT;
             case UNSIGNED_32:
                 return GL_UNSIGNED_INT;
@@ -271,6 +287,7 @@ public class GLFormat {
                 }
             case SIGNED_8:
             case SIMPLE_8:
+            case SIMPLE_16:
             case SIGNED_16:
             case SIGNED_32:
             case SIGNED_64:
@@ -314,12 +331,14 @@ public class GLFormat {
             case FLOAT_64:
                 return "float";
             case UNSIGNED_8:
+            case SIMPLE_16:
             case UNSIGNED_16:
             case UNSIGNED_32:
             case UNSIGNED_64:
                 return "uint";
             case SIGNED_8:
             case SIMPLE_8:
+
             case SIGNED_16:
             case SIGNED_32:
             case SIGNED_64:
@@ -341,6 +360,7 @@ public class GLFormat {
             case SIGNED_64:
                 return "isampler2D";
             case UNSIGNED_8:
+            case SIMPLE_16:
             case UNSIGNED_16:
             case UNSIGNED_32:
             case UNSIGNED_64:

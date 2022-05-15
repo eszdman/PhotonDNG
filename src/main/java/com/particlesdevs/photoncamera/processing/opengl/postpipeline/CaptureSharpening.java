@@ -3,7 +3,7 @@ package com.particlesdevs.photoncamera.processing.opengl.postpipeline;
 import com.particlesdevs.photoncamera.processing.opengl.nodes.Node;
 import util.Log.Log;
 
-public class CaptureSharpening extends Node {
+public class    CaptureSharpening extends Node {
     public CaptureSharpening() {
         super(0, "CaptureSharpening");
     }
