@@ -28,13 +28,8 @@ public class Bayer2Float extends Node {
         GLTexture in = new GLTexture(basePipeline.mParameters.rawSize, new GLFormat(GLFormat.DataType.SIMPLE_16), ((PostPipeline)(basePipeline)).stackFrame);
         GLTexture GainMapTex = new GLTexture(basePipeline.mParameters.mapSize, new GLFormat(GLFormat.DataType.FLOAT_16,4),
                 BufferUtils.getFrom(basePipeline.mParameters.gainMap),GL_LINEAR,GL_CLAMP_TO_EDGE);
-        float[] BL = new float[3];
-        /*BL[0] = basePipeline.mParameters.noiseModeler.computeModel[0].second.floatValue();
-        BL[1] = basePipeline.mParameters.noiseModeler.computeModel[1].second.floatValue();
-        BL[2] = basePipeline.mParameters.noiseModeler.computeModel[2].second.floatValue();*/
-        glProg.setDefine("BLR",BL[0]);
-        glProg.setDefine("BLG",BL[1]);
-        glProg.setDefine("BLB",BL[2]);
+        Log.d(Name,"whitelevel:"+basePipeline.mParameters.whiteLevel);
+        glProg.setDefine("AGAIN",65535.f/(basePipeline.mParameters.whiteLevel));
         glProg.setDefine("QUAD", basePipeline.mSettings.cfaPattern == -2);
         glProg.useAssetProgram("tofloat",false);
         glProg.setTexture("InputBuffer",in);
@@ -42,8 +37,7 @@ public class Bayer2Float extends Node {
         glProg.setVar("patSize",2);
         glProg.setVar("whitePoint",basePipeline.mParameters.whitePoint);
         glProg.setVar("RawSize",basePipeline.mParameters.rawSize);
-        Log.d(Name,"whitelevel:"+basePipeline.mParameters.whiteLevel);
-        glProg.setVarU("whitelevel",(basePipeline.mParameters.whiteLevel));
+
         glProg.setTexture("GainMap",GainMapTex);
         for(int i =0; i<4;i++){
             basePipeline.mParameters.blackLevel[i]/=basePipeline.mParameters.whiteLevel*postPipeline.regenerationSense;
@@ -68,20 +62,7 @@ public class Bayer2Float extends Node {
         Point wsize = new Point(basePipeline.mParameters.rawSize);
         basePipeline.main2 = new GLTexture(wsize, new GLFormat(GLFormat.DataType.FLOAT_16, GLDrawParams.WorkDim));
         WorkingTexture = basePipeline.main2;
-        /*glProg.drawBlocks(basePipeline.main3);
-        glProg.useProgram(R.raw.demosaicantiremosaic);
-        glProg.setTexture("RawBuffer",basePipeline.main3);*/
-
-
-        //glUtils.convertVec4(WorkingTexture,"in1.rgb,1.0");
-        //glUtils.SaveProgResult(in.mSize,"bayer",4,".jpg");
-
         glProg.drawBlocks(WorkingTexture);
-        /*if (PhotonCamera.getSettings().selectedMode == CameraMode.NIGHT){
-            wsize.x/=2;
-            wsize.y/=2;
-            basePipeline.main2 = new GLTexture(wsize, new GLFormat(GLFormat.DataType.FLOAT_16, GLDrawParams.WorkDim));
-        }*/
         basePipeline.main1 = new GLTexture(wsize, new GLFormat(GLFormat.DataType.FLOAT_16, GLDrawParams.WorkDim));
         basePipeline.main3 = new GLTexture(wsize, new GLFormat(GLFormat.DataType.FLOAT_16, GLDrawParams.WorkDim));
         ((PostPipeline)basePipeline).GainMap = GainMapTex;

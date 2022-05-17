@@ -24,8 +24,8 @@ public class FileProcessor {
             mByteBuffersToProcess.add(buffer);
         }
     }
+
     public GLImage Run(){
-        int cnt = 0;
         PostPipeline pipeline = new PostPipeline();
         Parameters parameters = new Parameters();
         GLImage last = null;
@@ -36,6 +36,7 @@ public class FileProcessor {
             //last.save(new File(namePatch+i+".png"));
         }
         mByteBuffersToProcess.clear();
+        pipeline.close();
         return last;
     }
 }

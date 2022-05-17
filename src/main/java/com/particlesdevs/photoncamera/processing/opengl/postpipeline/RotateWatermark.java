@@ -17,6 +17,7 @@ public class RotateWatermark extends Node {
     private int rotate;
     private boolean watermarkNeeded;
     private GLImage watermark;
+    private GLTexture watermarkTex;
     public RotateWatermark(int rotation) {
         super(0, "Rotate");
         rotate = rotation;
@@ -29,6 +30,7 @@ public class RotateWatermark extends Node {
     @Override
     public void AfterRun() {
         if(watermark != null) watermark.close();
+        if(watermarkTex != null) watermarkTex.close();
     }
 
     @Override
@@ -37,10 +39,10 @@ public class RotateWatermark extends Node {
         //else lutbm = BitmapFactory.decodeResource(PhotonCamera.getResourcesStatic(), R.drawable.neutral_lut);
         glProg.setDefine("WATERMARK",watermarkNeeded);
         glProg.useAssetProgram("addwatermark_rotate",false);
-        InputStream image;
-        image = PhotonCamera.getAssetLoader().getInputStream("watermark/photoncamera_watermark.png");
+        InputStream image = PhotonCamera.getAssetLoader().getInputStream("watermark/photoncamera_watermark.png");
         watermark = new GLImage(image);
-        glProg.setTexture("Watermark", new GLTexture(watermark,GL_LINEAR,GL_CLAMP_TO_EDGE,0));
+        watermarkTex = new GLTexture(watermark,GL_LINEAR,GL_CLAMP_TO_EDGE,0);
+        glProg.setTexture("Watermark", watermarkTex);
 
         glProg.setTexture("InputBuffer", previousNode.WorkingTexture);
         int rot = -1;

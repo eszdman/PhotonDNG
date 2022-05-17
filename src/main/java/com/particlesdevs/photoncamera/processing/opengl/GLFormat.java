@@ -23,8 +23,9 @@ public class GLFormat {
         UNSIGNED_32(10, 4),
         UNSIGNED_64(11, 8),
         BOOLEAN(12, 1),
-        SIMPLE_8(13, 1),
 
+        //Convert number data into floating point
+        SIMPLE_8(13, 1),
         SIMPLE_16(14, 2);
         final int mID;
         public final int mSize;

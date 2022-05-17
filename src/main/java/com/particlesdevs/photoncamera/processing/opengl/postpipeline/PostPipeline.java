@@ -87,7 +87,7 @@ public class PostPipeline extends GLBasePipeline {
     private void BuildDefaultPipeline(){
 
         add(new Bayer2Float());
-        //add(new ExposureFusionBayer2());
+        add(new ExposureFusionBayer2());
         switch (PhotonCamera.getSettings().cfaPattern) {
             case -2: {
                 add(new DemosaicQUAD());
@@ -122,17 +122,17 @@ public class PostPipeline extends GLBasePipeline {
 
         add(new Initial());
 
-        //add(new Equalization());
+        add(new Equalization());
 
-        //add(new GlobalToneMapping());
+        add(new GlobalToneMapping());
 
-        //add(new CaptureSharpening());
+        add(new CaptureSharpening());
 
-        //add(new CorrectingFlow());
+        add(new CorrectingFlow());
 
         //add(new ChromaticFlow());
 
-        //add(new Sharpen2());
+        add(new Sharpen2());
 
         add(new RotateWatermark(getRotation()));
     }

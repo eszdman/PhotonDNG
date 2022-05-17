@@ -19,6 +19,7 @@ public class MainUI {
     private JButton reprocessButton;
     private JPanel rawDraw;
     private JMenuItem SavePNG;
+    private JPanel panelimg;
     private JFrame frame;
     private File lastFile;
     private GLImage lastImage;
@@ -50,7 +51,7 @@ public class MainUI {
                 PhotonCamera.getJpegProcessor().namePatch = j.getSelectedFile().getName();
                 lastImage = PhotonCamera.getJpegProcessor().Run();
                 BufferedImage bufferedImage = lastImage.getBufferedImage();
-                mainPanel.getGraphics().drawImage(bufferedImage,0,0,mainPanel.getWidth(),mainPanel.getHeight(),null);
+                panelimg.getGraphics().drawImage(bufferedImage,0,0,panelimg.getWidth(),panelimg.getHeight(),null);
             }
         });
         SavePNG.addActionListener(e -> {
@@ -69,7 +70,7 @@ public class MainUI {
                     PhotonCamera.getJpegProcessor().namePatch = lastFile.getName();
                     lastImage = PhotonCamera.getJpegProcessor().Run();
                     BufferedImage bufferedImage = lastImage.getBufferedImage();
-                    mainPanel.getGraphics().drawImage(bufferedImage,0,0,mainPanel.getWidth(),mainPanel.getHeight(),null);
+                    panelimg.getGraphics().drawImage(bufferedImage,0,0,panelimg.getWidth(),panelimg.getHeight(),null);
                 }
             }
         });
